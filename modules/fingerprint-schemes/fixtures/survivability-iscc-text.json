@@ -1,0 +1,160 @@
+{
+  "matrix_version": "0.2",
+  "scheme": "iscc-content-text",
+  "scheme_class": "match",
+  "profile_ref": "ISO 24138:2024 Content-Code Text v0 (64-bit); similarity = 1 - Hamming/64",
+  "decision_policy": {
+    "id": "iscc-text-v0-hamming-0.85",
+    "threshold": 0.85
+  },
+  "tested_at": "2026-11-06T00:00:00Z",
+  "implementation": "iscc-core 1.3.0",
+  "runner": "modules/fingerprint-schemes/check_survivability.py (match rows compare observed_result to expected_result; scores recompute with obravera-com/obravera-fingerprint-verifier)",
+  "runner_version": "0.1.0",
+  "scope": "ISCC Content-Code Text similarity at document unit, and at block unit for a subject that is part of a whole",
+  "qualification": "Proves only that the named decision policy yields the stated result on these fixture bytes. Does not prove derivation, grounding, use in output, ownership, licensing or completeness; a not_found is not evidence of non-use.",
+  "fixture": {
+    "reference_sha256": "sha256:7087212161b3bdb0c890f563d799f8194bf5432a98f6710be2bc316d06f75832",
+    "reference": "obravera-com/obravera-fingerprint-verifier: fixtures/fingerprint/iscc-content-text/sources/ref-harbour-01.txt",
+    "licence": "CC0-1.0",
+    "note": "original synthetic news text about fictional places and people"
+  },
+  "test_conditions": {
+    "runtime": "Python 3.10+",
+    "input_normalisation": "UTF-8 bytes as stored; text schemes normalise per the algorithm reference",
+    "success_condition": "observed_result equals expected_result for every row"
+  },
+  "known_limits": [
+    {
+      "limit": "full paraphrase",
+      "tested": true
+    },
+    {
+      "limit": "translation",
+      "tested": false
+    },
+    {
+      "limit": "units shorter than roughly two sentences",
+      "tested": false
+    },
+    {
+      "limit": "unrelated 64-bit codes score near 0.5; the 0.4 to 0.6 band carries no information",
+      "tested": true
+    },
+    {
+      "limit": "document-unit code does not survive an updated version of the same work; use block unit or a local-overlap scheme",
+      "tested": true
+    }
+  ],
+  "transforms": [
+    {
+      "transform": "identical",
+      "operation": "byte-identical copy of the reference",
+      "unit": "document",
+      "subject_sha256": "sha256:7087212161b3bdb0c890f563d799f8194bf5432a98f6710be2bc316d06f75832",
+      "observed_result": "found",
+      "observed_score": 1.0,
+      "expected_result": "found",
+      "tested_by": "@RedHorseMane",
+      "reproduction": {
+        "software": "iscc-core 1.3.0",
+        "method": "recompute both fingerprints from the fixture bytes under policy iscc-text-v0-hamming-0.85; compare on the policy's measure",
+        "fixture": "obravera-com/obravera-fingerprint-verifier: fixtures/fingerprint/iscc-content-text/sources/ref-harbour-01.txt"
+      }
+    },
+    {
+      "transform": "sub_editing",
+      "operation": "Oxford comma added, \"the first of October\" to \"1 October\", \"four point two million\" to \"£4.2m\", \"around\" to \"about\"",
+      "unit": "document",
+      "subject_sha256": "sha256:42cd1bec639025e4af100afb712db522c102f3804622f8d404862865338d6da9",
+      "observed_result": "found",
+      "observed_score": 0.9844,
+      "expected_result": "found",
+      "tested_by": "@RedHorseMane",
+      "reproduction": {
+        "software": "iscc-core 1.3.0",
+        "method": "recompute both fingerprints from the fixture bytes under policy iscc-text-v0-hamming-0.85; compare on the policy's measure",
+        "fixture": "obravera-com/obravera-fingerprint-verifier: fixtures/fingerprint/iscc-content-text/sources/cand-harbour-light-edit.txt"
+      }
+    },
+    {
+      "transform": "condensed_rewrite",
+      "operation": "condensed rewrite that keeps names, figures and a few phrases",
+      "unit": "document",
+      "subject_sha256": "sha256:2832bffe47efd57603b4708abacc3166f796193662e9fc211cb879b559c4266b",
+      "observed_result": "not_found",
+      "observed_score": 0.4531,
+      "expected_result": "not_found",
+      "tested_by": "@RedHorseMane",
+      "reproduction": {
+        "software": "iscc-core 1.3.0",
+        "method": "recompute both fingerprints from the fixture bytes under policy iscc-text-v0-hamming-0.85; compare on the policy's measure",
+        "fixture": "obravera-com/obravera-fingerprint-verifier: fixtures/fingerprint/iscc-content-text/sources/cand-harbour-rewrite.txt"
+      }
+    },
+    {
+      "transform": "version_update_with_redaction",
+      "operation": "later version of the same work: sentence appended to paragraph 1, paragraph 4 removed, new paragraph inserted",
+      "unit": "document",
+      "subject_sha256": "sha256:d4908fea8749969a93c6f71e4eeee707ec39572b3a9bae19879361a35906ae1b",
+      "observed_result": "not_found",
+      "observed_score": 0.7812,
+      "expected_result": "not_found",
+      "tested_by": "@RedHorseMane",
+      "reproduction": {
+        "software": "iscc-core 1.3.0",
+        "method": "recompute both fingerprints from the fixture bytes under policy iscc-text-v0-hamming-0.85; compare on the policy's measure",
+        "fixture": "obravera-com/obravera-fingerprint-verifier: fixtures/fingerprint/iscc-content-text/sources/cand-harbour-v2.txt"
+      }
+    },
+    {
+      "transform": "excerpt_as_part",
+      "operation": "paragraph 2, lightly edited, checked as a part of the whole (subject.part_of set)",
+      "unit": "block",
+      "subject_sha256": "sha256:33f88e8b01399c44b0924edf3eb0a264402b6e1b5c4b24aae131911fa3ccb6ab",
+      "subject_part_of": "sha256:7087212161b3bdb0c890f563d799f8194bf5432a98f6710be2bc316d06f75832",
+      "observed_result": "found",
+      "observed_score": 0.9688,
+      "entry_part": "block:1",
+      "expected_result": "found",
+      "tested_by": "@RedHorseMane",
+      "reproduction": {
+        "software": "iscc-core 1.3.0",
+        "method": "recompute both fingerprints from the fixture bytes under policy iscc-text-v0-hamming-0.85; compare on the policy's measure",
+        "fixture": "obravera-com/obravera-fingerprint-verifier: fixtures/fingerprint/iscc-content-text/sources/cand-harbour-excerpt-p2.txt"
+      }
+    },
+    {
+      "transform": "unrelated_same_topic",
+      "operation": "different story on the same topic, similar length and vocabulary",
+      "unit": "document",
+      "subject_sha256": "sha256:4eaaac068ba039e825f6f552f09b66d0c7710bdf97c4cc0e46c3ac048fe55fcd",
+      "observed_result": "not_found",
+      "observed_score": 0.5156,
+      "expected_result": "not_found",
+      "tested_by": "@RedHorseMane",
+      "reproduction": {
+        "software": "iscc-core 1.3.0",
+        "method": "recompute both fingerprints from the fixture bytes under policy iscc-text-v0-hamming-0.85; compare on the policy's measure",
+        "fixture": "obravera-com/obravera-fingerprint-verifier: fixtures/fingerprint/iscc-content-text/sources/neg-harbour-unrelated.txt"
+      },
+      "note": "deliberate not_found row, listed in known_limits; a not_found here is expected behaviour, not evidence of non-use"
+    },
+    {
+      "transform": "full_paraphrase",
+      "operation": "every fact preserved, every sentence reworded",
+      "unit": "document",
+      "subject_sha256": "sha256:a45da81835d3a14c4ce717c18b1b479982846246b549cca408f6995042ec18f2",
+      "observed_result": "not_found",
+      "observed_score": 0.5312,
+      "expected_result": "not_found",
+      "tested_by": "@RedHorseMane",
+      "reproduction": {
+        "software": "iscc-core 1.3.0",
+        "method": "recompute both fingerprints from the fixture bytes under policy iscc-text-v0-hamming-0.85; compare on the policy's measure",
+        "fixture": "obravera-com/obravera-fingerprint-verifier: fixtures/fingerprint/iscc-content-text/sources/neg-harbour-paraphrase.txt"
+      },
+      "note": "deliberate not_found row, listed in known_limits; a not_found here is expected behaviour, not evidence of non-use"
+    }
+  ]
+}

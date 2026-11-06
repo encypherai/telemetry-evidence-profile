@@ -25,6 +25,7 @@ The module specifies how a check is reported. It does not prescribe how a consum
 - **Match schemes** compare a fingerprint of the content with a registry. A match says the text matches entry E under decision policy P. The registrant's identity comes from the registry.
 
 The two support different claims, and neither ranks above the other. A match result MUST NOT be presented as an identity result, or the reverse. They combine well: a match can find the source of text whose identity signal was lost.
+The match class is specified in [MATCH-SCHEMES.md](MATCH-SCHEMES.md), which continues this document's numbering.
 
 ## 4. Scheme declarations
 
